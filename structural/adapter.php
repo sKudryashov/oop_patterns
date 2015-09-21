@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 
  * 
@@ -19,76 +20,60 @@ The adapter can take the methods you can access in the original class, and adapt
 *  
 * */
 
-
 class SimpleBook
 {
 
+	private $author;
+	private $title;
 
-    private $author;
-    private $title;
+	function __construct($author_in, $title_in)
+	{
+		$this->author = $author_in;
+		$this->title = $title_in;
+	}
 
+	function getAuthor()
+	{
+		return $this->author;
+	}
 
-    function __construct($author_in, $title_in)
-    {
-        $this->author = $author_in;
-        $this->title = $title_in;
-    }
-
-
-    function getAuthor()
-    {
-        return $this->author;
-    }
-
-
-    function getTitle()
-    {
-        return $this->title;
-    }
-
+	function getTitle()
+	{
+		return $this->title;
+	}
 
 }
-
 
 class BookAdapter
 {
 
+	private $book;
 
-    private $book;
+	function __construct(SimpleBook $book_in)
+	{
+		$this->book = $book_in;
+	}
 
-
-    function __construct(SimpleBook $book_in)
-    {
-        $this->book = $book_in;
-    }
-
-
-    function getAuthorAndTitle()
-    {
-        return $this->book->getTitle() . ' by ' . $this->book->getAuthor();
-    }
-
+	function getAuthorAndTitle()
+	{
+		return $this->book->getTitle().' by '.$this->book->getAuthor();
+	}
 
 }
 
+define('BR', '<'.'BR'.'>');
 
-define('BR', '<' . 'BR' . '>');
-
-
-echo 'BEGIN TESTING ADAPTER PATTERN' . BR;
+echo 'BEGIN TESTING ADAPTER PATTERN'.BR;
 echo BR;
 
-
 $book = new SimpleBook("Gamma, Helm, Johnson, and Vlissides",
-    "Design Patterns");
+	"Design Patterns");
 
 $bookAdapter = new BookAdapter($book);
 
-echo 'Author and Title: ' . $bookAdapter->getAuthorAndTitle();
+echo 'Author and Title: '.$bookAdapter->getAuthorAndTitle();
 
-
-echo BR . BR;
-echo 'END TESTING ADAPTER PATTERN' . BR;
-
+echo BR.BR;
+echo 'END TESTING ADAPTER PATTERN'.BR;
 
 ?>

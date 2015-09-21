@@ -7,27 +7,32 @@
  */
 /* Factory and car interfaces */
 
-interface CarFactory {
-    public function makeCar();
+interface CarFactory
+{
+	public function makeCar();
 }
 
-
-interface Car {
-    public function getType();
+interface Car
+{
+	public function getType();
 }
 
 /* Concrete implementations of the factory and car */
 
-class SedanFactory implements CarFactory {
-    public function makeCar() {
-        return new Sedan();
-    }
+class SedanFactory implements CarFactory
+{
+	public function makeCar()
+	{
+		return new Sedan();
+	}
 }
 
-class Sedan implements Car {
-    public function getType() {
-        return 'Sedan';
-    }
+class Sedan implements Car
+{
+	public function getType()
+	{
+		return 'Sedan';
+	}
 }
 
 /* Client */

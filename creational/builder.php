@@ -18,161 +18,129 @@ AbstractPageBuilder.php
 abstract class AbstractPageBuilder
 {
 
-
-    abstract function getPage();
-
+	abstract function getPage();
 
 }
-
 
 abstract class AbstractPageDirector
 {
 
+	abstract function __construct(AbstractPageBuilder $builder_in);
 
-    abstract function __construct(AbstractPageBuilder $builder_in);
+	abstract function buildPage();
 
-
-    abstract function buildPage();
-
-
-    abstract function getPage();
-
+	abstract function getPage();
 
 }
-
 
 class HTMLPage
 {
 
+	private $page = null;
 
-    private $page = null;
+	private $page_title = null;
+	private $page_heading = null;
+	private $page_text = null;
 
+	function __construct()
+	{
+	}
 
-    private $page_title = null;
-    private $page_heading = null;
-    private $page_text = null;
+	function showPage()
+	{
+		return $this->page;
+	}
 
+	function setTitle($title_in)
+	{
+		$this->page_title = $title_in;
+	}
 
-    function __construct()
-    {
-    }
+	function setHeading($heading_in)
+	{
+		$this->page_heading = $heading_in;
+	}
 
+	function setText($text_in)
+	{
+		$this->page_text .= $text_in;
+	}
 
-    function showPage()
-    {
-        return $this->page;
-    }
-
-
-    function setTitle($title_in)
-    {
-        $this->page_title = $title_in;
-    }
-
-
-    function setHeading($heading_in)
-    {
-        $this->page_heading = $heading_in;
-    }
-
-
-    function setText($text_in)
-    {
-        $this->page_text .= $text_in;
-    }
-
-
-    function formatPage()
-    {
-        $this->page = '[html]';
-        $this->page .=
-            '[head][title]' . $this->page_title . '[/title][/head]';
-        $this->page .= '[body]';
-        $this->page .= '[h 1]' . $this->page_heading . '[/h 1]';
-        $this->page .= $this->page_text;
-        $this->page .= '[/body]';
-        $this->page .= '[/html]';
-    }
-
+	function formatPage()
+	{
+		$this->page = '[html]';
+		$this->page .=
+			'[head][title]'.$this->page_title.'[/title][/head]';
+		$this->page .= '[body]';
+		$this->page .= '[h 1]'.$this->page_heading.'[/h 1]';
+		$this->page .= $this->page_text;
+		$this->page .= '[/body]';
+		$this->page .= '[/html]';
+	}
 
 }
-
 
 class HTMLPageBuilder extends AbstractPageBuilder
 {
 
+	private $page = null;
 
-    private $page = null;
+	function __construct()
+	{
+		$this->page = new HTMLPage();
+	}
 
+	function setTitle($title_in)
+	{
+		$this->page->setTitle($title_in);
+	}
 
-    function __construct()
-    {
-        $this->page = new HTMLPage();
-    }
+	function setHeading($heading_in)
+	{
+		$this->page->setHeading($heading_in);
+	}
 
+	function setText($text_in)
+	{
+		$this->page->setText($text_in);
+	}
 
-    function setTitle($title_in)
-    {
-        $this->page->setTitle($title_in);
-    }
+	function formatPage()
+	{
+		$this->page->formatPage();
+	}
 
-
-    function setHeading($heading_in)
-    {
-        $this->page->setHeading($heading_in);
-    }
-
-
-    function setText($text_in)
-    {
-        $this->page->setText($text_in);
-    }
-
-
-    function formatPage()
-    {
-        $this->page->formatPage();
-    }
-
-
-    function getPage()
-    {
-        return $this->page;
-    }
-
+	function getPage()
+	{
+		return $this->page;
+	}
 
 }
-
 
 class HTMLPageDirector extends AbstractPageDirector
 {
 
+	private $builder = null;
 
-    private $builder = null;
+	public function __construct(AbstractPageBuilder $builder_in)
+	{
+		$this->builder = $builder_in;
+	}
 
+	public function buildPage()
+	{
+		$this->builder->setTitle('Testing the HTMLPage');
+		$this->builder->setHeading('Testing the HTMLPage');
+		$this->builder->setText('Testing, testing, testing!');
+		$this->builder->setText('Testing, testing, testing, or!');
+		$this->builder->setText('Testing, testing, testing, more!');
+		$this->builder->formatPage();
+	}
 
-    public function __construct(AbstractPageBuilder $builder_in)
-    {
-        $this->builder = $builder_in;
-    }
-
-
-    public function buildPage()
-    {
-        $this->builder->setTitle('Testing the HTMLPage');
-        $this->builder->setHeading('Testing the HTMLPage');
-        $this->builder->setText('Testing, testing, testing!');
-        $this->builder->setText('Testing, testing, testing, or!');
-        $this->builder->setText('Testing, testing, testing, more!');
-        $this->builder->formatPage();
-    }
-
-
-    public function getPage()
-    {
-        return $this->builder->getPage();
-    }
-
+	public function getPage()
+	{
+		return $this->builder->getPage();
+	}
 
 }
 
@@ -181,9 +149,6 @@ $page = new HTMLPageDirector($bb);
 $page->buildPage();
 $bb->getPage();
 
-
-
 //__________________________________________
-
 
 ?>

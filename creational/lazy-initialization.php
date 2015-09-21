@@ -6,13 +6,13 @@
  * Time: 1:00 PM
  * In computer programming, lazy initialization is the tactic of delaying the creation of an object,
  * the calculation of a value, or some other expensive process until the first time it is needed.
-
-This is typically accomplished by maintaining a flag indicating whether the process has taken place[citation needed].
+ *
+ * This is typically accomplished by maintaining a flag indicating whether the process has taken place[citation needed].
  * Each time the desired object is summoned, the flag is tested. If it is ready, it is returned. If not, it is
  * initialized on the spot. In multithreaded code, access to the flag must be synchronized to guard
  * against a race condition.
-
-See lazy evaluation for a general treatment of this idea. In heavily imperative languages this pattern carries hidden
+ *
+ * See lazy evaluation for a general treatment of this idea. In heavily imperative languages this pattern carries hidden
  * dangers, as does any programming habit that relies on shared state.
  *
  *
@@ -26,30 +26,34 @@ See lazy evaluation for a general treatment of this idea. In heavily imperative 
 
 header('Content-type:text/plain; charset=utf-8');
 
-class Fruit {
-    private $type;
-    private static $types = array();
+class Fruit
+{
+	private $type;
+	private static $types = array ();
 
-    private function __construct($type) {
-        $this->type = $type;
-    }
+	private function __construct($type)
+	{
+		$this->type = $type;
+	}
 
-    public static function getFruit($type) {
-        // Lazy initialization takes place here
-        if (!isset(self::$types[$type])) {
-            self::$types[$type] = new Fruit($type);
-        }
+	public static function getFruit($type)
+	{
+		// Lazy initialization takes place here
+		if (!isset(self::$types[$type])) {
+			self::$types[$type] = new Fruit($type);
+		}
 
-        return self::$types[$type];
-    }
+		return self::$types[$type];
+	}
 
-    public static function printCurrentTypes() {
-        echo 'Number of instances made: ' . count(self::$types) . "\n";
-        foreach (array_keys(self::$types) as $key) {
-            echo "$key\n";
-        }
-        echo "\n";
-    }
+	public static function printCurrentTypes()
+	{
+		echo 'Number of instances made: '.count(self::$types)."\n";
+		foreach (array_keys(self::$types) as $key) {
+			echo "$key\n";
+		}
+		echo "\n";
+	}
 }
 
 Fruit::getFruit('Apple');

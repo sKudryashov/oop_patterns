@@ -16,223 +16,212 @@ The concrete class OReillyBookfactory extends AbstractBookFactory, and can creat
 OReillyPHPBook classes, which are the correct classes for the context of OReilly. 
 */
 
-
 abstract class AbstractBookFactory
 {
 
-    abstract function makePHPBook();
+	abstract function makePHPBook();
 
-    abstract function makeMySQLBook();
+	abstract function makeMySQLBook();
 
 }
 
 class OReillyBookFactory extends AbstractBookFactory
 {
-    private $context = "OReilly";
+	private $context = "OReilly";
 
-    function makePHPBook()
-    {
-        return new OReillyPHPBook;
-    }
+	function makePHPBook()
+	{
+		return new OReillyPHPBook;
+	}
 
-    function makeMySQLBook()
-    {
-        return new OReillyMySQLBook;
-    }
+	function makeMySQLBook()
+	{
+		return new OReillyMySQLBook;
+	}
 }
 
 class OReillyMySQLBook extends AbstractMySQLBook
 {
 
-    private $author;
+	private $author;
 
-    private $title;
+	private $title;
 
-    function __construct()
-    {
+	function __construct()
+	{
 
-        $this->author = 'George Reese, Randy Jay Yarger, and Tim King';
-        $this->title = 'Managing and Using MySQL';
+		$this->author = 'George Reese, Randy Jay Yarger, and Tim King';
+		$this->title = 'Managing and Using MySQL';
 
-    }
+	}
 
-    function getAuthor()
-    {
-        return $this->author;
-    }
+	function getAuthor()
+	{
+		return $this->author;
+	}
 
-    function getTitle()
-    {
-        return $this->title;
-    }
+	function getTitle()
+	{
+		return $this->title;
+	}
 
 }
-
 
 class SamsBookFactory extends AbstractBookFactory
 {
 
-    private $context = "Sams";
+	private $context = "Sams";
 
-    function makePHPBook()
-    {
-        return new SamsPHPBook;
-    }
+	function makePHPBook()
+	{
+		return new SamsPHPBook;
+	}
 
-    function makeMySQLBook()
-    {
-        return new SamsMySQLBook;
-    }
+	function makeMySQLBook()
+	{
+		return new SamsMySQLBook;
+	}
 
 }
-
 
 abstract class AbstractBook
 {
 
-    abstract function getAuthor();
+	abstract function getAuthor();
 
-    abstract function getTitle();
+	abstract function getTitle();
 
 }
-
 
 abstract class AbstractMySQLBook
 {
 
-    private $subject = "MySQL";
+	private $subject = "MySQL";
 
 }
-
 
 class SamsMySQLBook extends AbstractMySQLBook
 {
 
-    private $author;
+	private $author;
 
-    private $title;
+	private $title;
 
-    function __construct()
-    {
+	function __construct()
+	{
 
-        $this->author = 'Paul Dubois';
-        $this->title = 'MySQL, 3rd Edition';
+		$this->author = 'Paul Dubois';
+		$this->title = 'MySQL, 3rd Edition';
 
-    }
+	}
 
-    function getAuthor()
-    {
-        return $this->author;
-    }
+	function getAuthor()
+	{
+		return $this->author;
+	}
 
-    function getTitle()
-    {
-        return $this->title;
-    }
+	function getTitle()
+	{
+		return $this->title;
+	}
 
 }
-
 
 abstract class AbstractPHPBook
 {
 
-    private $subject = "PHP";
+	private $subject = "PHP";
 
 }
-
 
 class OReillyPHPBook extends AbstractPHPBook
 {
 
-    private $author;
+	private $author;
 
-    private $title;
+	private $title;
 
-    private static $oddOrEven = 'odd';
+	private static $oddOrEven = 'odd';
 
-    function __construct()
-    {
+	function __construct()
+	{
 
+		//alternate between 2 books
 
-        //alternate between 2 books
+		if ('odd' == self::$oddOrEven) {
+			$this->author = 'Rasmus Lerdorf and Kevin Tatroe';
+			$this->title = 'Programming PHP';
+			self::$oddOrEven = 'even';
+		} else {
+			$this->author = 'David Sklar and Adam Trachtenberg';
+			$this->title = 'PHP Cookbook';
+			self::$oddOrEven = 'odd';
+		}
+	}
 
-        if ('odd' == self::$oddOrEven) {
-            $this->author = 'Rasmus Lerdorf and Kevin Tatroe';
-            $this->title = 'Programming PHP';
-            self::$oddOrEven = 'even';
-        } else {
-            $this->author = 'David Sklar and Adam Trachtenberg';
-            $this->title = 'PHP Cookbook';
-            self::$oddOrEven = 'odd';
-        }
-    }
+	function getAuthor()
+	{
+		return $this->author;
+	}
 
-    function getAuthor()
-    {
-        return $this->author;
-    }
-
-    function getTitle()
-    {
-        return $this->title;
-    }
+	function getTitle()
+	{
+		return $this->title;
+	}
 
 }
-
 
 class SamsPHPBook extends AbstractPHPBook
 {
 
-    private $author;
+	private $author;
 
-    private $title;
+	private $title;
 
-    function __construct()
-    {
+	function __construct()
+	{
 
-        //alternate randomly between 2 books
+		//alternate randomly between 2 books
 
-        mt_srand((double)microtime() * 10000000);
-        $rand_num = mt_rand(0, 1);
+		mt_srand((double)microtime() * 10000000);
+		$rand_num = mt_rand(0, 1);
 
-        if (1 > $rand_num) {
-            $this->author = 'George Schlossnagle';
-            $this->title = 'Advanced PHP Programming';
-        } else {
-            $this->author = 'Christian Wenz';
-            $this->title = 'PHP Phrasebook';
-        }
-    }
+		if (1 > $rand_num) {
+			$this->author = 'George Schlossnagle';
+			$this->title = 'Advanced PHP Programming';
+		} else {
+			$this->author = 'Christian Wenz';
+			$this->title = 'PHP Phrasebook';
+		}
+	}
 
-    function getAuthor()
-    {
-        return $this->author;
-    }
+	function getAuthor()
+	{
+		return $this->author;
+	}
 
-    function getTitle()
-    {
-        return $this->title;
-    }
+	function getTitle()
+	{
+		return $this->title;
+	}
 
 }
-
 
 echo tagins("html");
 echo tagins("head");
 echo tagins("/head");
 echo tagins("body");
 
-
 echo "BEGIN TESTING ABSTRACT FACTORY PATTERN";
-echo tagins("br") . tagins("br");
+echo tagins("br").tagins("br");
 
-echo 'testing OReillyBookFactory' . tagins("br");
+echo 'testing OReillyBookFactory'.tagins("br");
 $bookFactoryInstance = new OReillyBookFactory;
 testConcreteFactory($bookFactoryInstance);
 
 echo tagins("br");
 
-echo 'testing SamsBookFactory' . tagins("br");
+echo 'testing SamsBookFactory'.tagins("br");
 $bookFactoryInstance = new SamsBookFactory;
 testConcreteFactory($bookFactoryInstance);
 
@@ -243,32 +232,31 @@ echo tagins("br");
 echo tagins("/body");
 echo tagins("/html");
 
-
 function testConcreteFactory($bookFactoryInstance)
 {
-    $phpBookOne = $bookFactoryInstance->makePHPBook();
-    echo 'first php Author: ' .
-        $phpBookOne->getAuthor() . tagins("br");
-    echo 'first php Title: ' .
-        $phpBookOne->getTitle() . tagins("br");
+	$phpBookOne = $bookFactoryInstance->makePHPBook();
+	echo 'first php Author: '.
+		$phpBookOne->getAuthor().tagins("br");
+	echo 'first php Title: '.
+		$phpBookOne->getTitle().tagins("br");
 
-    $phpBookTwo = $bookFactoryInstance->makePHPBook();
-    echo 'second php Author: ' .
-        $phpBookTwo->getAuthor() . tagins("br");
-    echo 'second php Title: ' .
-        $phpBookTwo->getTitle() . tagins("br");
+	$phpBookTwo = $bookFactoryInstance->makePHPBook();
+	echo 'second php Author: '.
+		$phpBookTwo->getAuthor().tagins("br");
+	echo 'second php Title: '.
+		$phpBookTwo->getTitle().tagins("br");
 
-    $mySqlBook = $bookFactoryInstance->makeMySQLBook();
-    echo 'MySQL Author: ' .
-        $mySqlBook->getAuthor() . tagins("br");
-    echo 'MySQL Title: ' .
-        $mySqlBook->getTitle() . tagins("br");
+	$mySqlBook = $bookFactoryInstance->makeMySQLBook();
+	echo 'MySQL Author: '.
+		$mySqlBook->getAuthor().tagins("br");
+	echo 'MySQL Title: '.
+		$mySqlBook->getTitle().tagins("br");
 }
 
 //doing this so code can be displayed without breaks
 function tagins($stuffing)
 {
-    return "<" . $stuffing . ">";
+	return "<".$stuffing.">";
 }
 
 ?>
